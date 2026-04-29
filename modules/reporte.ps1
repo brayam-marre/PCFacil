@@ -85,13 +85,13 @@ function Invoke-ReporteFacil {
         $items = ($d.Mejoras | ForEach-Object {
             "<li><span class='mejora-texto'>$($_.Texto)</span><br><span class='mejora-costo'>Costo aproximado: $($_.Costo)</span></li>"
         }) -join ''
-        $mejorasHTML = "<div class='seccion'><h2>Qué puedes mejorar</h2><ul class='mejoras'>$items</ul></div>"
+        $mejorasHTML = "<div class='seccion'><h2>Que puedes mejorar</h2><ul class='mejoras'>$items</ul></div>"
     }
 
     # Alternativas SO
     $soAlts = switch -Wildcard ($d.SORec) {
-        "*Linux*" { "<li>Linux Mint: gratuito, rápido en PC antiguas, fácil de usar</li><li>Lubuntu: para PC con muy pocos recursos</li>" }
-        "*10*"    { "<li>Windows 10 LTSC: versión más liviana de Windows 10</li><li>Linux Mint: gratuito, fácil de usar, similar a Windows</li>" }
+        "*Linux*" { "<li>Linux Mint: gratuito, rapido en PC antiguas, facil de usar</li><li>Lubuntu: para PC con muy pocos recursos</li>" }
+        "*10*"    { "<li>Windows 10 LTSC: version más liviana de Windows 10</li><li>Linux Mint: gratuito, fácil de usar, similar a Windows</li>" }
         default   { "" }
     }
     $soHTML = "<div class='seccion'><h2>Sistema operativo recomendado</h2>

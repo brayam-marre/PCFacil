@@ -41,7 +41,12 @@ function Invoke-LimpiezaFacil {
     $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Temp" "Archivos temporales adicionales"
     $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Microsoft\Windows\INetCache" "Archivos de internet guardados"
     $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache" "Caché de Google Chrome"
-    $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Mozilla\Firefox\Profiles" "Caché de Mozilla Firefox"
+    $ffProfiles = "$env:LOCALAPPDATA\Mozilla\Firefox\Profiles"
+    if (Test-Path $ffProfiles) {
+        Get-ChildItem $ffProfiles -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+            $totalMB += Limpiar-Carpeta "$($_.FullName)\cache2" "Caché de Mozilla Firefox"
+        }
+    }
 
     # Papelera
     Write-Host ""

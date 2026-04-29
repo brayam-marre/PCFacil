@@ -127,7 +127,7 @@ while ($true) {
         '0' { Invoke-SalirFacil; exit }
         default {
             Write-Host ""
-            Write-Host "  Opción no válida. Escribe 1, 2, 3, 4 o 0." -ForegroundColor Yellow
+            Write-Host "  Opcion no valida. Escribe 1, 2, 3, 4 o 0." -ForegroundColor Yellow
             Start-Sleep -Seconds 1
         }
     }

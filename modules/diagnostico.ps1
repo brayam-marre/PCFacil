@@ -33,12 +33,12 @@ function Get-EstadoPC {
     $cpuGen = 0; $cpuBrand = ""
     if ($cpuName -match 'Intel') {
         $cpuBrand = "Intel"
-        if    ($cpuName -match 'Core.*i[3579]-(\d{4,5})')   { $cpuGen = [int]($Matches[1].Substring(0,1)) }
-        elseif($cpuName -match 'Core.*i[3579]-(\d{2})\d{2}') { $cpuGen = [int]$Matches[1] }
-        elseif($cpuName -match '12th|13th|14th')             { $cpuGen = 13 }
-        elseif($cpuName -match '11th')                        { $cpuGen = 11 }
-        elseif($cpuName -match '10th')                        { $cpuGen = 10 }
-        elseif($cpuName -match 'Core 2|Pentium|Celeron|Atom') { $cpuGen = 2 }
+        if    ($cpuName -match '12th|13th|14th')              { $cpuGen = 13 }
+        elseif($cpuName -match '11th')                         { $cpuGen = 11 }
+        elseif($cpuName -match '10th')                         { $cpuGen = 10 }
+        elseif($cpuName -match 'Core.*i[3579]-(\d{2})\d{3}')  { $cpuGen = [int]$Matches[1] }
+        elseif($cpuName -match 'Core.*i[3579]-(\d)\d{3}')     { $cpuGen = [int]$Matches[1] }
+        elseif($cpuName -match 'Core 2|Pentium|Celeron|Atom')  { $cpuGen = 2 }
     } elseif ($cpuName -match 'AMD') {
         $cpuBrand = "AMD"
         if    ($cpuName -match 'Ryzen.*7[0-9]{3}')    { $cpuGen = 12 }
@@ -77,8 +77,8 @@ function Get-EstadoPC {
     $mejoras = @()
     if ($ramGB -lt 8)    { $mejoras += @{ Texto = "Agregar más memoria RAM (actualmente tienes $ramGB GB, lo ideal es 16 GB)"; Costo = "`$15.000 - `$40.000 CLP" } }
     elseif ($ramGB -lt 16) { $mejoras += @{ Texto = "Ampliar la RAM de $ramGB GB a 16 GB para mayor velocidad"; Costo = "`$25.000 - `$50.000 CLP" } }
-    if ($hasHDD -and -not $hasSSD -and -not $hasNVMe) { $mejoras += @{ Texto = "Cambiar el disco duro por un SSD (el equipo sería 5 veces más rápido al encender y abrir programas)"; Costo = "`$25.000 - `$55.000 CLP" } }
-    if (-not $win11Ok -and $isWin11) { $mejoras += @{ Texto = "Tu computador tiene Windows 11 pero el hardware no es compatible oficialmente. Puede tener problemas con actualizaciones futuras"; Costo = "Sin costo (información)" } }
+    if ($hasHDD -and -not $hasSSD -and -not $hasNVMe) { $mejoras += @{ Texto = "Cambiar el disco duro por un SSD (el equipo seria 5 veces más rapido al encender y abrir programas)"; Costo = "`$25.000 - `$55.000 CLP" } }
+    if (-not $win11Ok -and $isWin11) { $mejoras += @{ Texto = "Tu computador tiene Windows 11 pero el hardware no es compatible oficialmente. Puede tener problemas con actualizaciones futuras"; Costo = "Sin costo (informacion)" } }
     if ($cUsadoPct -gt 85) { $mejoras += @{ Texto = "El disco C: está casi lleno ($cUsadoPct%). Libera espacio o agrega almacenamiento"; Costo = "`$20.000 - `$40.000 CLP" } }
 
     # SO recomendado
@@ -128,7 +128,7 @@ function Invoke-DiagnosticoFacil {
     # -- Procesador --
     Write-Host "  Tu procesador (CPU)" -ForegroundColor Yellow
     $cpuColor = if ($d.CPUGen -ge 10) {'Green'} elseif ($d.CPUGen -ge 7) {'Yellow'} else {'Red'}
-    $cpuMsg   = if ($d.CPUGen -ge 10) {'Está en buen estado para las tareas del día a día'}
+    $cpuMsg   = if ($d.CPUGen -ge 10) {'Esta en buen estado para las tareas del día a día'}
                 elseif ($d.CPUGen -ge 7) {'Funciona bien para uso normal, pero tiene algunos años de uso. Puede ir lento en tareas pesadas'}
                 elseif ($d.CPUGen -ge 4) {'Es antiguo. Puede causar lentitud al usar varios programas a la vez'}
                 else {'Muy antiguo. Es probable que el equipo vaya lento constantemente'}
@@ -146,7 +146,7 @@ function Invoke-DiagnosticoFacil {
     if ($d.SlotsLibres -gt 0) {
         Write-Host "  Tienes $($d.SlotsLibres) espacio(s) libre(s) para agregar más RAM sin quitar la actual." -ForegroundColor Green
     } else {
-        Write-Host "  Los espacios de RAM están llenos. Habría que reemplazar los módulos para ampliar." -ForegroundColor DarkGray
+        Write-Host "  Los espacios de RAM estan llenos. Habría que reemplazar los modulos para ampliar." -ForegroundColor DarkGray
     }
     Write-Host ""
 
