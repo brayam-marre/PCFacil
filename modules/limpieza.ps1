@@ -5,8 +5,8 @@ function Invoke-LimpiezaFacil {
     Write-Host "  LIMPIAR TU COMPUTADOR" -ForegroundColor White
     Write-Host "  $('-' * 65)" -ForegroundColor DarkGray
     Write-Host ""
-    Write-Host "  Este proceso eliminará archivos basura que ya no necesita tu PC." -ForegroundColor DarkGray
-    Write-Host "  No se borrarán tus documentos, fotos ni programas instalados." -ForegroundColor DarkGray
+    Write-Host "  Este proceso eliminara archivos basura que ya no necesita tu PC." -ForegroundColor DarkGray
+    Write-Host "  No se borraran tus documentos, fotos ni programas instalados." -ForegroundColor DarkGray
     Write-Host ""
 
     $ok = Read-Host "  ¿Quieres continuar con la limpieza? (s/n)"
@@ -40,11 +40,11 @@ function Invoke-LimpiezaFacil {
     $totalMB += Limpiar-Carpeta "C:\Windows\Prefetch"    "Archivos de precarga de Windows"
     $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Temp" "Archivos temporales adicionales"
     $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Microsoft\Windows\INetCache" "Archivos de internet guardados"
-    $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache" "Caché de Google Chrome"
+    $totalMB += Limpiar-Carpeta "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cache" "Cache de Google Chrome"
     $ffProfiles = "$env:LOCALAPPDATA\Mozilla\Firefox\Profiles"
     if (Test-Path $ffProfiles) {
         Get-ChildItem $ffProfiles -Directory -ErrorAction SilentlyContinue | ForEach-Object {
-            $totalMB += Limpiar-Carpeta "$($_.FullName)\cache2" "Caché de Mozilla Firefox"
+            $totalMB += Limpiar-Carpeta "$($_.FullName)\cache2" "Cache de Mozilla Firefox"
         }
     }
 
@@ -63,7 +63,7 @@ function Invoke-LimpiezaFacil {
         if ($rMB -gt 0) {
             Write-Host "Papelera vaciada  ($rMB MB liberados)" -ForegroundColor Cyan
         } else {
-            Write-Host "La Papelera ya estaba vacía"
+            Write-Host "La Papelera ya estaba vacia"
         }
     } catch {
         Write-Host "  [--] No se pudo vaciar la Papelera" -ForegroundColor DarkGray
@@ -80,7 +80,7 @@ function Invoke-LimpiezaFacil {
     # DNS flush
     ipconfig /flushdns 2>&1 | Out-Null
     Write-Host "  [OK] " -ForegroundColor Green -NoNewline
-    Write-Host "Conexión de internet optimizada"
+    Write-Host "Conexion de internet optimizada"
 
     # Logs viejos
     Write-Host ""
@@ -114,7 +114,7 @@ function Invoke-LimpiezaFacil {
         Write-Host "  Limpieza completada. Se liberaron $([math]::Round($totalMB, 0)) MB en tu PC." -ForegroundColor Green
     }
     Write-Host ""
-    Write-Host "  Tu PC debería ir un poco más rápido ahora." -ForegroundColor DarkGray
+    Write-Host "  Tu PC deberia ir un poco mas rapido ahora." -ForegroundColor DarkGray
     Write-Host "  $('=' * 65)" -ForegroundColor DarkGray
     Write-Host ""
 }

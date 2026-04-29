@@ -19,9 +19,9 @@ function Get-EstadoPC {
     $hasNVMe  = $disks | Where-Object { $_.BusType -eq 'NVMe' }
     $hasSSD   = $disks | Where-Object { $_.MediaType -eq 'SSD' -and $_.BusType -ne 'NVMe' }
     $hasHDD   = $disks | Where-Object { $_.MediaType -eq 'HDD' }
-    if ($hasNVMe) { $diskTipo = "NVMe (muy rápido)" }
-    elseif ($hasSSD) { $diskTipo = "SSD (rápido)" }
-    elseif ($hasHDD) { $diskTipo = "Disco duro mecánico (lento)" }
+    if ($hasNVMe) { $diskTipo = "NVMe (muy rapido)" }
+    elseif ($hasSSD) { $diskTipo = "SSD (rapido)" }
+    elseif ($hasHDD) { $diskTipo = "Disco duro mecanico (lento)" }
 
     # Espacio en disco C:
     $cDrive    = Get-PSDrive C -ErrorAction SilentlyContinue
@@ -75,17 +75,17 @@ function Get-EstadoPC {
 
     # Mejoras
     $mejoras = @()
-    if ($ramGB -lt 8)    { $mejoras += @{ Texto = "Agregar más memoria RAM (actualmente tienes $ramGB GB, lo ideal es 16 GB)"; Costo = "`$15.000 - `$40.000 CLP" } }
+    if ($ramGB -lt 8)    { $mejoras += @{ Texto = "Agregar mas memoria RAM (actualmente tienes $ramGB GB, lo ideal es 16 GB)"; Costo = "`$15.000 - `$40.000 CLP" } }
     elseif ($ramGB -lt 16) { $mejoras += @{ Texto = "Ampliar la RAM de $ramGB GB a 16 GB para mayor velocidad"; Costo = "`$25.000 - `$50.000 CLP" } }
-    if ($hasHDD -and -not $hasSSD -and -not $hasNVMe) { $mejoras += @{ Texto = "Cambiar el disco duro por un SSD (el equipo seria 5 veces más rapido al encender y abrir programas)"; Costo = "`$25.000 - `$55.000 CLP" } }
+    if ($hasHDD -and -not $hasSSD -and -not $hasNVMe) { $mejoras += @{ Texto = "Cambiar el disco duro por un SSD (el equipo seria 5 veces mas rapido al encender y abrir programas)"; Costo = "`$25.000 - `$55.000 CLP" } }
     if (-not $win11Ok -and $isWin11) { $mejoras += @{ Texto = "Tu computador tiene Windows 11 pero el hardware no es compatible oficialmente. Puede tener problemas con actualizaciones futuras"; Costo = "Sin costo (informacion)" } }
-    if ($cUsadoPct -gt 85) { $mejoras += @{ Texto = "El disco C: está casi lleno ($cUsadoPct%). Libera espacio o agrega almacenamiento"; Costo = "`$20.000 - `$40.000 CLP" } }
+    if ($cUsadoPct -gt 85) { $mejoras += @{ Texto = "El disco C: esta casi lleno ($cUsadoPct%). Libera espacio o agrega almacenamiento"; Costo = "`$20.000 - `$40.000 CLP" } }
 
     # SO recomendado
     $soRec = ""; $soDetalle = ""
     if ($pct -ge 75 -and $win11Ok) { $soRec = "Windows 11"; $soDetalle = "Tu PC es compatible y funciona bien con Windows 11." }
-    elseif ($pct -ge 55)           { $soRec = "Windows 10";  $soDetalle = "Windows 10 es la mejor opción para tu equipo. Windows 11 puede ser inestable." }
-    elseif ($pct -ge 35)           { $soRec = "Windows 10 o Linux Mint"; $soDetalle = "Tu PC es antigua. Windows 10 liviano o Linux Mint son la mejor opción." }
+    elseif ($pct -ge 55)           { $soRec = "Windows 10";  $soDetalle = "Windows 10 es la mejor opcion para tu equipo. Windows 11 puede ser inestable." }
+    elseif ($pct -ge 35)           { $soRec = "Windows 10 o Linux Mint"; $soDetalle = "Tu PC es antigua. Windows 10 liviano o Linux Mint son la mejor opcion." }
     else                            { $soRec = "Linux Mint o Lubuntu"; $soDetalle = "Tu PC es muy antigua para Windows 10/11. Linux funciona mucho mejor en equipos viejos y es gratuito." }
 
     return @{
@@ -128,7 +128,7 @@ function Invoke-DiagnosticoFacil {
     # -- Procesador --
     Write-Host "  Tu procesador (CPU)" -ForegroundColor Yellow
     $cpuColor = if ($d.CPUGen -ge 10) {'Green'} elseif ($d.CPUGen -ge 7) {'Yellow'} else {'Red'}
-    $cpuMsg   = if ($d.CPUGen -ge 10) {'Esta en buen estado para las tareas del día a día'}
+    $cpuMsg   = if ($d.CPUGen -ge 10) {'Esta en buen estado para las tareas del dia a dia'}
                 elseif ($d.CPUGen -ge 7) {'Funciona bien para uso normal, pero tiene algunos años de uso. Puede ir lento en tareas pesadas'}
                 elseif ($d.CPUGen -ge 4) {'Es antiguo. Puede causar lentitud al usar varios programas a la vez'}
                 else {'Muy antiguo. Es probable que el equipo vaya lento constantemente'}
@@ -139,23 +139,23 @@ function Invoke-DiagnosticoFacil {
     # -- RAM --
     Write-Host "  Tu memoria RAM" -ForegroundColor Yellow
     $ramColor = if ($d.RAMGB -ge 16) {'Green'} elseif ($d.RAMGB -ge 8) {'Yellow'} else {'Red'}
-    $ramMsg   = if ($d.RAMGB -ge 16) {"Tienes $($d.RAMGB) GB de RAM. Es suficiente para la mayoría de tareas"}
+    $ramMsg   = if ($d.RAMGB -ge 16) {"Tienes $($d.RAMGB) GB de RAM. Es suficiente para la mayoria de tareas"}
                 elseif ($d.RAMGB -ge 8) {"Tienes $($d.RAMGB) GB de RAM. Suficiente para uso normal, pero puede ir lento con muchas cosas abiertas"}
                 else {"Tienes solo $($d.RAMGB) GB de RAM. Es poco y puede causar mucha lentitud"}
     Write-Host "  Estado: " -NoNewline; Write-Host $ramMsg -ForegroundColor $ramColor
     if ($d.SlotsLibres -gt 0) {
-        Write-Host "  Tienes $($d.SlotsLibres) espacio(s) libre(s) para agregar más RAM sin quitar la actual." -ForegroundColor Green
+        Write-Host "  Tienes $($d.SlotsLibres) espacio(s) libre(s) para agregar mas RAM sin quitar la actual." -ForegroundColor Green
     } else {
-        Write-Host "  Los espacios de RAM estan llenos. Habría que reemplazar los modulos para ampliar." -ForegroundColor DarkGray
+        Write-Host "  Los espacios de RAM estan llenos. Habria que reemplazar los modulos para ampliar." -ForegroundColor DarkGray
     }
     Write-Host ""
 
     # -- Disco --
     Write-Host "  Tu disco (almacenamiento)" -ForegroundColor Yellow
     $diskColor = if ($d.DiskTipo -match 'NVMe|SSD') {'Green'} else {'Yellow'}
-    $diskMsg   = if ($d.DiskTipo -match 'NVMe') {"Tienes un disco NVMe, el más rápido que existe. Muy bien."}
-                 elseif ($d.DiskTipo -match 'SSD') {"Tienes un disco SSD. Tu PC enciende y abre programas rápido."}
-                 else {"Tienes un disco duro mecánico (HDD). Es lento. Cambiarlo a SSD sería la mejora más notoria."}
+    $diskMsg   = if ($d.DiskTipo -match 'NVMe') {"Tienes un disco NVMe, el mas rapido que existe. Muy bien."}
+                 elseif ($d.DiskTipo -match 'SSD') {"Tienes un disco SSD. Tu PC enciende y abre programas rapido."}
+                 else {"Tienes un disco duro mecanico (HDD). Es lento. Cambiarlo a SSD seria la mejora mas notoria."}
     Write-Host "  Tipo de disco: " -NoNewline; Write-Host $d.DiskTipo -ForegroundColor $diskColor
     Write-Host "  $diskMsg" -ForegroundColor $diskColor
     Write-Host ""
@@ -163,9 +163,9 @@ function Invoke-DiagnosticoFacil {
     # -- Espacio disponible --
     Write-Host "  Espacio disponible en tu PC" -ForegroundColor Yellow
     $espColor = if ($d.CUsadoPct -lt 75) {'Green'} elseif ($d.CUsadoPct -lt 90) {'Yellow'} else {'Red'}
-    $espMsg   = if ($d.CUsadoPct -lt 75) {"Tienes $($d.CLibreGB) GB libres de $($d.CTotalGB) GB. Está bien."}
+    $espMsg   = if ($d.CUsadoPct -lt 75) {"Tienes $($d.CLibreGB) GB libres de $($d.CTotalGB) GB. Esta bien."}
                 elseif ($d.CUsadoPct -lt 90) {"Quedan solo $($d.CLibreGB) GB libres de $($d.CTotalGB) GB. Considera liberar espacio."}
-                else {"El disco está casi lleno. Solo $($d.CLibreGB) GB libres de $($d.CTotalGB) GB. Esto puede causar lentitud."}
+                else {"El disco esta casi lleno. Solo $($d.CLibreGB) GB libres de $($d.CTotalGB) GB. Esto puede causar lentitud."}
     Write-Host "  " -NoNewline; Write-Host $espMsg -ForegroundColor $espColor
     Write-Host ""
 
@@ -173,10 +173,10 @@ function Invoke-DiagnosticoFacil {
     Write-Host "  Tu sistema operativo (Windows)" -ForegroundColor Yellow
     Write-Host "  Tienes: $($d.SO)" -ForegroundColor DarkGray
     if ($d.Win11Ok -and $d.IsWin11) {
-        Write-Host "  Tu computador es compatible con Windows 11. Todo está correcto." -ForegroundColor Green
+        Write-Host "  Tu computador es compatible con Windows 11. Todo esta correcto." -ForegroundColor Green
     } elseif (-not $d.Win11Ok -and $d.IsWin11) {
         Write-Host "  Tienes Windows 11 pero tu hardware no es oficialmente compatible." -ForegroundColor Yellow
-        Write-Host "  Puede funcionar ahora, pero podrías tener problemas con futuras actualizaciones." -ForegroundColor DarkGray
+        Write-Host "  Puede funcionar ahora, pero podrias tener problemas con futuras actualizaciones." -ForegroundColor DarkGray
     } else {
         Write-Host "  Windows 10 es adecuado para tu equipo." -ForegroundColor Green
     }
@@ -184,10 +184,10 @@ function Invoke-DiagnosticoFacil {
 
     # -- Puntaje --
     $vColor = if ($d.Score -ge 80) {'Green'} elseif ($d.Score -ge 60) {'Yellow'} else {'Red'}
-    $vTexto = if ($d.Score -ge 80) {'Tu PC está en buen estado'}
+    $vTexto = if ($d.Score -ge 80) {'Tu PC esta en buen estado'}
                elseif ($d.Score -ge 60) {'Tu PC funciona bien pero tiene margen de mejora'}
-               elseif ($d.Score -ge 40) {'Tu PC está envejeciendo, algunas mejoras ayudarían mucho'}
-               else {'Tu PC necesita atención o considerar reemplazo'}
+               elseif ($d.Score -ge 40) {'Tu PC esta envejeciendo, algunas mejoras ayudarian mucho'}
+               else {'Tu PC necesita atencion o considerar reemplazo'}
 
     Write-Host "  $('=' * 65)" -ForegroundColor DarkGray
     Write-Host "  RESULTADO GENERAL" -ForegroundColor White
@@ -199,7 +199,7 @@ function Invoke-DiagnosticoFacil {
     Write-Host ""
 
     if ($d.Mejoras.Count -gt 0) {
-        Write-Host "  QUÉ PODRÍAS MEJORAR:" -ForegroundColor Yellow
+        Write-Host "  QUE PODRIAS MEJORAR:" -ForegroundColor Yellow
         $d.Mejoras | ForEach-Object {
             Write-Host "  -> $($_.Texto)" -ForegroundColor White
             Write-Host "     Costo aproximado: $($_.Costo)" -ForegroundColor DarkGray

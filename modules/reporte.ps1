@@ -38,14 +38,14 @@ function Invoke-ReporteFacil {
                   else {"Tienes solo $($d.RAMGB) GB de RAM. Es poco y causa lentitud"}
 
     $diskStatus = if ($d.DiskTipo -match 'NVMe') {'BIEN'} elseif ($d.DiskTipo -match 'SSD') {'BIEN'} else {'REVISAR'}
-    $diskMsg    = if ($d.DiskTipo -match 'NVMe') {'Disco NVMe: el más rápido disponible'}
-                  elseif ($d.DiskTipo -match 'SSD') {'Disco SSD: rápido, el PC enciende y responde bien'}
-                  else {'Disco duro mecánico: lento. Cambiarlo por SSD sería una gran mejora'}
+    $diskMsg    = if ($d.DiskTipo -match 'NVMe') {'Disco NVMe: el mas rapido disponible'}
+                  elseif ($d.DiskTipo -match 'SSD') {'Disco SSD: rapido, el PC enciende y responde bien'}
+                  else {'Disco duro mecanico: lento. Cambiarlo por SSD seria una gran mejora'}
 
     $espStatus  = if ($d.CUsadoPct -lt 75) {'BIEN'} elseif ($d.CUsadoPct -lt 90) {'REGULAR'} else {'REVISAR'}
-    $espMsg     = if ($d.CUsadoPct -lt 75) {"Tienes $($d.CLibreGB) GB libres. Está bien."}
+    $espMsg     = if ($d.CUsadoPct -lt 75) {"Tienes $($d.CLibreGB) GB libres. Esta bien."}
                   elseif ($d.CUsadoPct -lt 90) {"Quedan $($d.CLibreGB) GB libres. Considera liberar espacio."}
-                  else {"Solo $($d.CLibreGB) GB libres. El disco está casi lleno."}
+                  else {"Solo $($d.CLibreGB) GB libres. El disco esta casi lleno."}
 
     $winStatus  = if ($d.Win11Ok -and $d.IsWin11) {'BIEN'}
                   elseif (-not $d.Win11Ok -and $d.IsWin11) {'REGULAR'}
@@ -55,10 +55,10 @@ function Invoke-ReporteFacil {
                   else {'Windows 10 es adecuado para tu equipo'}
 
     $scoreColor = Get-ColorHtml $d.Score
-    $veredicto  = if ($d.Score -ge 80) {'Tu PC está en buen estado'}
+    $veredicto  = if ($d.Score -ge 80) {'Tu PC esta en buen estado'}
                   elseif ($d.Score -ge 60) {'Tu PC funciona bien pero tiene margen de mejora'}
                   elseif ($d.Score -ge 40) {'Tu PC necesita algunas mejoras'}
-                  else {'Tu PC necesita atención o considerar reemplazo'}
+                  else {'Tu PC necesita atencion o considerar reemplazo'}
 
     # Tarjetas de estado
     $cards = @(
@@ -91,7 +91,7 @@ function Invoke-ReporteFacil {
     # Alternativas SO
     $soAlts = switch -Wildcard ($d.SORec) {
         "*Linux*" { "<li>Linux Mint: gratuito, rapido en PC antiguas, facil de usar</li><li>Lubuntu: para PC con muy pocos recursos</li>" }
-        "*10*"    { "<li>Windows 10 LTSC: version más liviana de Windows 10</li><li>Linux Mint: gratuito, fácil de usar, similar a Windows</li>" }
+        "*10*"    { "<li>Windows 10 LTSC: version mas liviana de Windows 10</li><li>Linux Mint: gratuito, facil de usar, similar a Windows</li>" }
         default   { "" }
     }
     $soHTML = "<div class='seccion'><h2>Sistema operativo recomendado</h2>
