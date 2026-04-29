@@ -75,17 +75,3 @@ PCFacil/
     ├── limpieza.ps1          <- Limpieza de archivos temporales y caché
     └── reporte.ps1           <- Generación de reporte HTML
 ```
-
----
-
-## Contacto
-
-**Brayam Marre Provoste** — Técnico en Soporte TI y Programación
-
-| | |
-|---|---|
-| Teléfono / WhatsApp | +56 9 7991 0642 |
-| Correo | brayam.provoste@hotmail.com |
-| LinkedIn | linkedin.com/in/brayam-marre |
-| Presencial | Yumbel y Yumbel Estación |
-| Remoto | Todo Chile (TeamViewer, AnyDesk o similar) |
